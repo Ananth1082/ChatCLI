@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func RunSQLFile(db *sql.DB, sqlFile string) (sql.Result, error) {
+func runSQLFile(db *sql.DB, sqlFile string) (sql.Result, error) {
 	command, err := os.ReadFile(sqlFile)
 	if err != nil {
 		return nil, err

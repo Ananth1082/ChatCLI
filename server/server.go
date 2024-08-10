@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 
+	"github.com/Ananth1082/Terminal_Chat_App/db"
 	"github.com/Ananth1082/Terminal_Chat_App/util"
 )
 
@@ -31,6 +32,10 @@ func Run() {
 	go func() {
 		for client := range server.clients {
 			fmt.Printf("New Client has joined!!!\n\tName: %s\n\tAddress: %s\n", client.Username, client.Conn.RemoteAddr().String())
+			err := db.LogSession(&client)
+			if err != nil {
+				fmt.Println("error occured while logging session. error: ", err)
+			}
 		}
 	}()
 

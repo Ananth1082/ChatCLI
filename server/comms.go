@@ -27,19 +27,19 @@ func (server *Server) AcceptLoop() { // Use pointer receiver
 	}
 }
 
-func enterInfo(server *Server, conn net.Conn) (*models.Client, error) {
+func enterInfo(server *Server, conn net.Conn) (*models.Session, error) {
 	nameBuf := make([]byte, 100)
 	WriteData(conn, "Enter your username\n")
 	n, err := ReadData(conn, nameBuf)
 	if err != nil {
 		log.Fatal(err)
 	}
-	cl := models.NewClient(conn, string(nameBuf[:n]))
+	cl := models.NewSession(conn, string(nameBuf[:n]))
 	server.clients <- *cl
 	return cl, nil
 }
 
-func (server *Server) ReadLoop(cl *models.Client) {
+func (server *Server) ReadLoop(cl *models.Session) {
 	defer cl.Conn.Close()
 	buf := make([]byte, 2048)
 	for {
