@@ -3,10 +3,9 @@ package models
 import (
 	"net"
 
+	"github.com/Ananth1082/Terminal_Chat_App/constants"
 	"github.com/google/uuid"
 )
-
-const LOBBY_SESSION = "000000000000000000000000000000"
 
 // Client represents the client meta data and address
 type Session struct {
@@ -19,5 +18,5 @@ type Session struct {
 
 func NewSession(conn net.Conn, username string) *Session {
 	sessionID := uuid.New().String()
-	return &Session{SessionID: sessionID, ChatroomID: LOBBY_SESSION, Conn: conn, Username: username}
+	return &Session{SessionID: sessionID, ChatroomID: constants.LOBBY_ID, Conn: conn, Username: username}
 }

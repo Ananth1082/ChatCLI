@@ -1,0 +1,10 @@
+package constants
+
+const CLEAR = "\033[2J\033[H"
+
+const DOUBLE_LINE_HORIZONTAL = "\u2550"
+const DOUBLE_LINE_VERTICAL = "\u2551"
+const DOUBLE_LINE_TOP_LEFT = "\u2554"
+const DOUBLE_LINE_TOP_RIGHT = "\u2557"
+const DOUBLE_LINE_BOTTOM_LEFT = "\u255A"
+const DOUBLE_LINE_BOTTOM_RIGHT = "\u255D"

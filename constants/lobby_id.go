@@ -1,0 +1,3 @@
+package constants
+
+const LOBBY_ID = "000000000-0000-0000-0000-000000000000"

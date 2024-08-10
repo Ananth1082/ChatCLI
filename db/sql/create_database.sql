@@ -4,6 +4,7 @@ CREATE TABLE
     user_name VARCHAR(50),
     local_ip VARCHAR(20),
     created_at TIMESTAMP,
+    is_active INT CHECK (is_active in (0,1)),
     last_active_at TIMESTAMP,
     PRIMARY KEY (session_id)
   );
@@ -37,4 +38,4 @@ CREATE TABLE
     FOREIGN KEY (session_id) REFERENCES sessions (session_id) ON UPDATE CASCADE ON DELETE CASCADE
   );
 
-INSERT INTO chatrooms values("000000000000000000000000000000000000","Lobby",CURRENT_TIMESTAMP);
+INSERT INTO chatrooms values("000000000-0000-0000-0000-000000000000","Lobby",CURRENT_TIMESTAMP);
