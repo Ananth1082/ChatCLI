@@ -1,4 +1,4 @@
-package main
+package db
 
 import (
 	"database/sql"
@@ -7,8 +7,8 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-func main() {
-	gcdb, err := sql.Open("sqlite", "./chat_app.db")
+func init() {
+	gcdb, err := sql.Open("sqlite", "../db/chat_app.db")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -18,5 +18,4 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
