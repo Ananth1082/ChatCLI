@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS chatrooms;
+DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS messages;
+

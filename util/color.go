@@ -2,7 +2,7 @@ package util
 
 import "fmt"
 
-var colorMap = map[string]string{
+var ColorMap = map[string]string{
 	"Black":   "40",
 	"Red":     "41",
 	"Green":   "42",
@@ -14,5 +14,5 @@ var colorMap = map[string]string{
 }
 
 func PrintColorBlock(color, message string) string {
-	return fmt.Sprintf("\033[%sm%s\033[0m", colorMap[color], message)
+	return fmt.Sprintf("\033[%sm%s\033[0m", ColorMap[color], message)
 }

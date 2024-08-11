@@ -5,8 +5,10 @@ import (
 	"log"
 	"net"
 
-	"github.com/Ananth1082/Terminal_Chat_App/util"
+	"github.com/Ananth1082/Terminal_Chat_App/db"
 )
+
+const LOBBY_ID = "000000000-0000-0000-0000-000000000000"
 
 // Start the server by creating a tcp listener and bind it to the server struct
 func (server *Server) Start() error { // Use pointer receiver
@@ -31,13 +33,20 @@ func Run() {
 	go func() {
 		for client := range server.clients {
 			fmt.Printf("New Client has joined!!!\n\tName: %s\n\tAddress: %s\n", client.Username, client.Conn.RemoteAddr().String())
+			err := db.LogSession(&client)
+			if err != nil {
+				fmt.Println("error occured while logging session. error: ", err)
+			}
 		}
 	}()
 
 	//Message Logs
 	go func() {
 		for msg := range server.messages {
-			fmt.Printf("%s: %s\n", util.PrintColorBlock("Red", msg.Client.Username), string(msg.Message))
+			err := db.LogMessages(msg)
+			if err != nil {
+				fmt.Println("error occured while logging message", err)
+			}
 		}
 	}()
 

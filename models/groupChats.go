@@ -1,13 +1,13 @@
 package models
 
 type Groupchat struct {
-	Members []Client
+	Members []Session
 	kill    chan struct{}
 }
 
-func NewGroupChat(member Client) *Groupchat {
+func NewGroupChat(member Session) *Groupchat {
 	return &Groupchat{
-		Members: []Client{member},
+		Members: []Session{member},
 		kill:    make(chan struct{}),
 	}
 }
