@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"log"
+	"sync"
 
 	migrations "github.com/Ananth1082/Terminal_Chat_App/db/sql"
 	_ "modernc.org/sqlite"
@@ -10,6 +11,7 @@ import (
 
 type DB struct {
 	database *sql.DB
+	sync.Mutex
 }
 
 var db DB

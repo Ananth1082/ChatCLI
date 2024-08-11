@@ -8,36 +8,38 @@ import (
 func LogMessages(message models.Message) error {
 	messageID := uuid.New().String()
 	query := `
-	INSERT INTO messages (message_id,chatroom_id,session_id,content,sent_at)
+	INSERT INTO messages (message_id,chatroom_name,user_name,content,sent_at)
 	VALUES (?, ?, ?, ?,CURRENT_TIMESTAMP)
 `
-	_, err := db.database.Exec(query, messageID, message.Client.ChatroomID, message.Client.SessionID, string(message.Message))
+	db.Lock()
+	_, err := db.database.Exec(query, messageID, message.Client.ChatroomID, message.Client.Username, string(message.Message))
+	db.Unlock()
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
-func GetMessageFromCG(chatroomID string) (map[string]string, error) {
-	res := make(map[string]string)
+func GetMessageFromCG(chatroom string) ([]models.DisplayMessage, error) {
+	res := make([]models.DisplayMessage, 0, 50)
 	query := `
-	SELECT s.user_name, m.content
-	FROM messages AS m
-	JOIN sessions AS s ON s.session_id = m.session_id
-	WHERE m.chatroom_id = ?;
+	SELECT user_name, content, sent_at
+	FROM messages 
+	WHERE chatroom_name = ?;
 	`
-	rows, err := db.database.Query(query, chatroomID)
+	rows, err := db.database.Query(query, chatroom)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var message struct {
-			userName string
-			content  string
+		var message models.DisplayMessage
+		err := rows.Scan(&message.UserName, &message.Content, &message.CreatedAt)
+		if err != nil {
+			return nil, err
 		}
-		rows.Scan(&message)
-		res[message.userName] = message.content
+		res = append(res, message)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
