@@ -8,8 +8,6 @@ import (
 	"github.com/Ananth1082/Terminal_Chat_App/db"
 )
 
-const LOBBY_ID = "000000000-0000-0000-0000-000000000000"
-
 // Start the server by creating a tcp listener and bind it to the server struct
 func (server *Server) Start() error { // Use pointer receiver
 	//ln is the listener
@@ -49,7 +47,13 @@ func Run() {
 			}
 		}
 	}()
-
+	go func() {
+		var s string
+		fmt.Println("Press <Enter> to close the server")
+		fmt.Scanln(&s)
+		fmt.Println("Server closed. Thank you")
+		server.quitch <- struct{}{}
+	}()
 	err := server.Start()
 	if err != nil {
 		log.Fatal(err)
