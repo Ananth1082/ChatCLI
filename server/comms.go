@@ -61,6 +61,7 @@ func enterInfo(server *Server, conn net.Conn) (*models.Session, error) {
 }
 
 func (server *Server) CommandLoop(cl *models.Session) {
+
 	defer cl.Conn.Close()
 	for {
 		ListCmds(*cl)
@@ -146,7 +147,7 @@ func WriteData(conn net.Conn, message string) {
 }
 
 func ListCmds(session models.Session) {
-	WriteData(session.Conn, constants.CLEAR)
+	// WriteData(session.Conn, constants.CLEAR)
 
 	// Command list text
 	WriteData(session.Conn, session.ChatroomID+"\n")
