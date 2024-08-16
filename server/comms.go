@@ -119,6 +119,10 @@ func (server *Server) CommandLoop(cl *models.Session) {
 			err := db.CreateChatroom(cname)
 			if err != nil {
 				WriteData(cl.Conn, "Error creating chatroom, "+err.Error()+"\n")
+			}
+			err = db.JoinChatroom(cl, cname)
+			if err != nil {
+				WriteData(cl.Conn, "Error creating chatroom, "+err.Error()+"\n")
 			} else {
 				WriteData(cl.Conn, "Successfully created chatroom\n")
 			}
