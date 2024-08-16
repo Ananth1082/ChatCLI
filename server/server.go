@@ -30,7 +30,7 @@ func Run() {
 	// List clients
 	go func() {
 		for client := range server.clients {
-			fmt.Printf("New Client has joined!!!\n\tName: %s\n\tAddress: %s\n", client.Username, client.Conn.RemoteAddr().String())
+			fmt.Printf("New Client has joined\n\tName: %s\n\tAddress: %s\n", client.Username, client.Conn.RemoteAddr().String())
 			err := db.LogSession(&client)
 			if err != nil {
 				fmt.Println("error occured while logging session. error: ", err)
@@ -42,6 +42,14 @@ func Run() {
 	go func() {
 		for msg := range server.messages {
 			err := db.LogMessages(msg)
+			for _, feed := range server.userFeeds {
+				select {
+				case feed <- msg: // Try to send the message
+					// Message sent successfully
+				default:
+					// The channel is blocked or closed, skip sending
+				}
+			}
 			if err != nil {
 				fmt.Println("error occured while logging message", err)
 			}
