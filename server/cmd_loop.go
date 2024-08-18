@@ -43,6 +43,8 @@ func (server *Server) CommandLoop(cl *models.Session) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel() // Ensure cancel is called to release resources
 
+			WriteData(cl.Conn, "Press <Enter> to leave read mode\n")
+
 			messages, err := db.GetMessageFromCG(cl.ChatroomID)
 			if err != nil {
 				WriteData(cl.Conn, "Error occurred while getting messages: "+err.Error())
@@ -53,7 +55,7 @@ func (server *Server) CommandLoop(cl *models.Session) {
 			wg.Add(1)
 			// Goroutine for listening to user input to exit read mode
 			go func() {
-				WriteData(cl.Conn, "Press <Enter> to leave read mode\n")
+
 				ReadData(cl.Conn)
 				cancel() // Cancel the context to signal the feed goroutine
 				wg.Done()
