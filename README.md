@@ -5,6 +5,10 @@ A Command Line Program where you can create rooms and chat with people.
 
 The application takes advantage of Go's concurrency to handle many requests at a time to create a robust chat app.
 
+## Pre-req
+
+Need to install netcat to connect to the server
+
 ## How to use
 
 - Clone the repo
